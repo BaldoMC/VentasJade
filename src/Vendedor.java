@@ -72,6 +72,7 @@ public class Vendedor extends Agent{
 				String nombre = mensaje.getContent();
 				ACLMessage respuesta = mensaje.createReply();
 				Integer precio = (Integer) catalogo.get(nombre);
+				
 				if (precio != null) {
 					respuesta.setPerformative(ACLMessage.PROPOSE);
 					respuesta.setContent(String.valueOf(precio.intValue()));
@@ -80,7 +81,33 @@ public class Vendedor extends Agent{
 					respuesta.setContent("no disponible");
 				}
 				myAgent.send(respuesta);
-			}
+			}else block();
+		}
+	}
+	/**
+	 * Inner clase que realiza venta
+	 * @author Joaquin Solano
+	 * Comportamiendo usado por el vendedor, para realizar la venta de juego a los compradores.
+	 */
+	public class RealizarVenta extends CyclicBehaviour {
+		public void action() {
+			MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
+			ACLMessage mensaje = myAgent.receive(mt);
+			if(mensaje != null) {
+				// Si se recibe un mensaje, se busca el juego en el catalogo.
+				String nombre = mensaje.getContent();
+				ACLMessage respuesta = mensaje.createReply();
+				Integer precio = (Integer) catalogo.get(nombre);
+				
+				if (precio != null) {
+					respuesta.setPerformative(ACLMessage.INFORM);
+					System.out.println("El juego "+ nombre +" fue vendido a "+mensaje.getSender().getLocalName());
+				}else{
+					respuesta.setPerformative(ACLMessage.FAILURE);
+					respuesta.setContent("no disponible");
+				}
+				myAgent.send(respuesta);
+			}else block();
 		}
 	}
 }
