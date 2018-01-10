@@ -4,6 +4,8 @@ import jade.core.behaviours.*;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.*;
+import jade.lang.acl.MessageTemplate;
+import jade.lang.acl.ACLMessage;
 
 
 public class Vendedor extends Agent{
@@ -55,5 +57,30 @@ public class Vendedor extends Agent{
 				}
 		});
 	}
-	
+	/**
+	 * Inner clase de ofrecer Juego
+	 * @author Joaquin Solano
+	 * Comportamiendo usado por el vendedor, para ofrecer juegos a las peticiones entrantes
+	 * de los comparadores.
+	 */
+	public class ofrecerJuego extends CyclicBehaviour {
+		public void action() {
+			MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.CFP);
+			ACLMessage mensaje = myAgent.receive(mt);
+			if (mensaje != null) {
+				// Si se recibe un mensaje, se busca el juego en el catalogo.
+				String nombre = mensaje.getContent();
+				ACLMessage respuesta = mensaje.createReply();
+				Integer precio = (Integer) catalogo.get(nombre);
+				if (precio != null) {
+					respuesta.setPerformative(ACLMessage.PROPOSE);
+					respuesta.setContent(String.valueOf(precio.intValue()));
+				}else{
+					respuesta.setPerformative(ACLMessage.REFUSE);
+					respuesta.setContent("no disponible");
+				}
+				myAgent.send(respuesta);
+			}
+		}
+	}
 }
