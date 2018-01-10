@@ -30,6 +30,8 @@ public class Vendedor extends Agent{
 		}
 		
 		System.out.println("Vendedor " + getAID().getLocalName() + " listo para vender!");
+		addBehaviour(new ofrecerJuego());
+		addBehaviour(new RealizarVenta());
 	}
 	
 	/**
