@@ -11,9 +11,15 @@ import jade.lang.acl.ACLMessage;
 public class Vendedor extends Agent{
 	//Catalogo de juegos disponibles en cada vendedor
 	private Hashtable catalogo;
+	private int ganancia;
+	private int cantVentas;
+	private Sistema sistema;
 	
 	protected void setup() {
 		catalogo = new Hashtable();
+		
+		sistema = new Sistema(this,null,"vendedor");
+		
 		
 		//Se crea el servicio del vendedor 
 		DFAgentDescription dfd = new DFAgentDescription();
@@ -54,6 +60,7 @@ public class Vendedor extends Agent{
 	public void actualizarCatalogo(final String nombre, final int precio) {
 		addBehaviour(new OneShotBehaviour() {
 				public void action() {
+					
 					catalogo.put(nombre,new Integer(precio));
 					System.out.println(nombre +" insertado en el catalogo de juegos de: " + myAgent.getLocalName()+ " a un precio de $" +precio);
 				}
@@ -99,8 +106,9 @@ public class Vendedor extends Agent{
 				// Si se recibe un mensaje, se busca el juego en el catalogo.
 				String nombre = mensaje.getContent();
 				ACLMessage respuesta = mensaje.createReply();
-				Integer precio = (Integer) catalogo.get(nombre);
-				
+				Integer precio = (Integer) catalogo.remove(nombre);
+				ganancia = ganancia + precio;
+				cantVentas = cantVentas + 1;
 				if (precio != null) {
 					respuesta.setPerformative(ACLMessage.INFORM);
 					System.out.println("El juego "+ nombre +" fue vendido a "+mensaje.getSender().getLocalName());
