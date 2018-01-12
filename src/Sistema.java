@@ -4,7 +4,7 @@ import java.util.*;
 public class Sistema {
 
 	private Vendedor agenteV;
-
+	
 	Sistema (Vendedor vendedor){
 			agenteV = vendedor;
 			String titulo = "";

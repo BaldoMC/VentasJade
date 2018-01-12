@@ -18,8 +18,13 @@ public class Vendedor extends Agent{
 	protected void setup() {
 		catalogo = new Hashtable();
 		
-		
-		sistema = new Sistema(this);
+		Object[] args = getArguments();
+
+		for(int i = 0 ; i < args.length ; i = i + 2) {
+			catalogo.put((String)args[i], Integer.parseInt((String)args[i+1]));
+			System.out.println("Se ingreso el juego " + (String)args[i] + " a un precio " + Integer.parseInt((String)args[i+1]));
+		}
+		//sistema = new Sistema(this);
 		
 		
 		//Se crea el servicio del vendedor 
