@@ -22,7 +22,7 @@ public class Vendedor extends Agent{
 
 		for(int i = 0 ; i < args.length ; i = i + 2) {
 			catalogo.put((String)args[i], Integer.parseInt((String)args[i+1]));
-			System.out.println("Se ingreso el juego " + (String)args[i] + " a un precio " + Integer.parseInt((String)args[i+1]));
+			System.out.println(getAID().getLocalName()+" ingreso el juego " + (String)args[i] + " a un precio " + Integer.parseInt((String)args[i+1]));
 		}
 		//sistema = new Sistema(this);
 		
@@ -41,9 +41,16 @@ public class Vendedor extends Agent{
 			fe.printStackTrace();
 		}
 		
-		System.out.println("Vendedor " + getAID().getLocalName() + " listo para vender!");
+		System.out.println("[Vendedor] " + getAID().getLocalName() + " listo para vender!");
 		addBehaviour(new ofrecerJuego());
 		addBehaviour(new RealizarVenta());
+		
+		addBehaviour(new TickerBehaviour(this,30000) {
+			@Override
+			protected void onTick() {
+				System.out.println("El vendedor "+myAgent.getLocalName()+" hasta el momento tiene $"+ganancia+" de ganancia, y ha vendido "+cantVentas+" de productos.");
+			}
+		});
 	}
 	
 	/**

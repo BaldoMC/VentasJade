@@ -18,13 +18,13 @@ public class Comprador extends Agent {
 	
 	protected void setup() {
 		
-		System.out.println("Comprador " + getAID().getLocalName() + " listo para comprar.");
+		System.out.println("[Comprador] " + getAID().getLocalName() + " listo para comprar.");
 		//sistema = new Sistema(null,this,"comprador");
 		Object[] args = getArguments();
 		titulo = (String) args[0];
-		System.out.println("El titulo es: "+ titulo);
+		System.out.println("---->El titulo es: "+ titulo);
 		if(titulo != null) {
-			addBehaviour(new TickerBehaviour(this,30000) {
+			addBehaviour(new TickerBehaviour(this,15000) {
 				@Override
 				protected void onTick() {
 					JOptionPane.showMessageDialog(null,"Quiero comprar " + titulo);
@@ -35,7 +35,7 @@ public class Comprador extends Agent {
 					template.addServices(sd);
 					try {
 						DFAgentDescription[] resultado = DFService.search(myAgent, template);
-						System.out.println("Se encontraron " + resultado.length + "vendedores.");
+						System.out.println("Se encontraron " + resultado.length + " vendedores.");
 						vendedores = new AID[resultado.length];
 						for(int i = 0; i < resultado.length ; i++) {
 							vendedores[i] = resultado[i].getName();
