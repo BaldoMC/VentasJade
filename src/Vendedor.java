@@ -45,12 +45,7 @@ public class Vendedor extends Agent{
 	 * Metodo que termina con un agente
 	 */
 	protected void takeDown() {
-		
-		try {
-			DFService.deregister(this);
-		}catch(FIPAException fe) {
-			fe.printStackTrace();
-		}
+
 		System.out.println(getAID().getLocalName() +" se despide.");
 	}
 	/**

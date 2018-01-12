@@ -24,9 +24,9 @@ public class Comprador extends Agent {
 		titulo = (String) args[0];
 		System.out.println("El titulo es: "+ titulo);
 		if(titulo != null) {
-			addBehaviour(new OneShotBehaviour() {
+			addBehaviour(new TickerBehaviour(this,30000) {
 				@Override
-				public void action() {
+				protected void onTick() {
 					JOptionPane.showMessageDialog(null,"Quiero comprar " + titulo);
 						
 					DFAgentDescription template = new DFAgentDescription();
@@ -44,6 +44,8 @@ public class Comprador extends Agent {
 					}catch (FIPAException fe) {
 						fe.printStackTrace();
 					}
+					
+					myAgent.addBehaviour(new solicitarCompra());
 				}
 			});
 		}else {
@@ -56,11 +58,6 @@ public class Comprador extends Agent {
 	 */
 	protected void takeDown() {
 		
-		try {
-			DFService.deregister(this);
-		}catch(FIPAException fe) {
-			fe.printStackTrace();
-		}
 		System.out.println(getAID().getLocalName() +" se despide.");
 	}
 	
@@ -142,10 +139,5 @@ public class Comprador extends Agent {
 			return((paso ==2 && mejorVendedor == null) || paso == 4);
 		}
 	}
-	
-	public void setTitulo(String nombre) {
-		titulo = nombre;
-	}
-	
 	
 }
