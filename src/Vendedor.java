@@ -18,7 +18,8 @@ public class Vendedor extends Agent{
 	protected void setup() {
 		catalogo = new Hashtable();
 		
-		sistema = new Sistema(this,null,"vendedor");
+		
+		sistema = new Sistema(this);
 		
 		
 		//Se crea el servicio del vendedor 

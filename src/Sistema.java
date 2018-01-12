@@ -2,12 +2,10 @@ import java.util.Scanner;
 import java.util.*;
 
 public class Sistema {
-    private Comprador agenteC;
+
 	private Vendedor agenteV;
 
-	Sistema (Vendedor vendedor,Comprador comprador, String tipo){
-		
-		if(tipo == "vendedor") {
+	Sistema (Vendedor vendedor){
 			agenteV = vendedor;
 			String titulo = "";
 			int precio = 0;
@@ -21,18 +19,7 @@ public class Sistema {
 				agenteV.actualizarCatalogo(titulo, precio);
 				System.out.println("Nombre del juego:");
 				titulo = entrada.nextLine();
-			}	
-		}else {
-			
-			agenteC = comprador;
-
-			Scanner entrada = new Scanner (System.in);
-			System.out.println("Nombre del juego a comprar:");
-			String nombre = entrada.nextLine();
-			agenteC.setTitulo(nombre);
-
-		}
-		
+			}
 	}
 	
 }

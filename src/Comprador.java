@@ -17,15 +17,17 @@ public class Comprador extends Agent {
 	
 	
 	protected void setup() {
+		
 		System.out.println("Comprador " + getAID().getLocalName() + " listo para comprar.");
-		sistema = new Sistema(null,this,"comprador");
-		titulo = "Resident Evil";
-		System.out.println(titulo);
+		//sistema = new Sistema(null,this,"comprador");
+		Object[] args = getArguments();
+		titulo = (String) args[0];
+		System.out.println("El titulo es: "+ titulo);
 		if(titulo != null) {
 			addBehaviour(new OneShotBehaviour() {
 				@Override
 				public void action() {
-					//JOptionPane.showMessageDialog(null,"Quiero comprar " + titulo);
+					JOptionPane.showMessageDialog(null,"Quiero comprar " + titulo);
 						
 					DFAgentDescription template = new DFAgentDescription();
 					ServiceDescription sd = new ServiceDescription();
